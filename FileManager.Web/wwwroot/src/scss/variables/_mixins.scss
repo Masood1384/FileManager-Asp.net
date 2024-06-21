@@ -1,0 +1,24 @@
+@mixin vertical-center($position: 'relative') {
+    position: #{$position};
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@mixin font($font) {
+    font-family: $font, Helvetica, sans-serif;
+}
+
+@mixin focus-border($borderWidth: 1px) {
+    border: #{$borderWidth} solid transparent;
+    &:focus {
+        border: $borderWidth solid $focusColor;
+    }
+}
+
+@mixin palette-border-color($primary, $secondary) {
+    border-color: $secondary $secondary $primary $primary;
+}
+
+@mixin change-theme-transition() {
+    transition: background-color .5s linear;
+}

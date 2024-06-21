@@ -1,0 +1,55 @@
+.fm-wrapper {
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .float-lt {
+        float: left;
+    }
+
+    .float-rt {
+        float: right;
+    }
+
+    .svg-icon {
+        vertical-align: middle;
+    }
+
+    .no-focus {
+        &:focus {
+            border: none;
+            outline: none;
+        }
+    }
+
+    ul.list-inline li, ol.list-inline li {
+        display: inline-block;
+    }
+
+    .badge {
+        display: inline-block;
+        border-radius: 4px;
+        padding: 2px 10px;
+        margin: 3px;
+        font-size: font-size(1.4);
+        background-color: $secondaryColor;
+        color: #FFF;
+    }
+
+    .w-normal {
+        font-weight: 400;
+    }
+
+    .w-medium {
+        font-weight: 500;
+    }
+
+    .w-bold {
+        font-weight: 500;
+    }
+}

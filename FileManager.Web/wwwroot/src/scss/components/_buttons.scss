@@ -1,0 +1,109 @@
+$borderWidth: 1.8px;
+
+%btn {
+    @include focus-border($borderWidth);
+    border: $borderWidth solid transparent;
+    border-radius: 4px;
+    padding: 8px 24px;
+    font-size: font-size(1.6);
+    background-color: #FFF;
+    color: inherit;
+    cursor: pointer;
+}
+
+.fm-wrapper {
+
+    .btn-primary {
+        @extend %btn;
+        background-color: $mainColor;
+        color: #FFF;
+
+        &:hover {
+            background-color: getHoverColor($mainColor);
+        }
+    }
+
+    .btn-secondary {
+        @extend %btn;
+        background-color: $secondaryColor;
+        color: #FFF;
+
+        &:hover {
+            background-color: getHoverColor($secondaryColor);
+        }
+    }
+
+    .btn-outline {
+        @extend %btn;
+        background-color: #FFF;
+        border: $textColor solid $borderWidth;
+        color: $textColor;
+
+        &:hover {
+            background-color: getHoverColor($mainColor);
+            color: #FFF;
+            border-color: #999;
+        }
+    }
+
+    .btn-icon-reset {
+        @include focus-border($borderWidth);
+        background-color: transparent;
+        color: inherit;
+        cursor: pointer;
+    }
+
+    .btn-svg {
+        @extend %btn;
+        border-radius: 4px;
+
+        svg {
+            vertical-align: bottom;
+            margin-right: 5px;
+
+            path {
+                fill: $mainColor;
+            }
+        }
+
+        .btn-text {
+            vertical-align: middle;
+        }
+    }
+
+    .btn-big-svg {
+        svg {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 8px;
+
+            path {
+                fill: #FFF;
+            }
+        }
+
+        &[disabled] {
+            opacity: .5;
+        }
+
+        &:focus {
+            border-color: transparent;
+        }
+    }
+
+    .btn-upload {
+        @extend %btn;
+        background-color: map-get($colors, 'white');
+        border: $borderWidth solid $textColor;
+        color: $textColor;
+
+        &:hover {
+            background-color: getHoverColor(map-get($colors, 'white'), 4%);
+        }
+
+        input[type='file'] {
+            display: none;
+        }
+    }
+}

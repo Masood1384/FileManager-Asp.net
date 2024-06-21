@@ -1,0 +1,64 @@
+.fm-wrapper {
+
+    @each $theme, $map in $theme-colors {
+
+        &.#{$theme}#{'-theme'} {
+
+            $main: map_get($map, 'main');
+            $secondary: map-get($map, 'secondary');
+
+            .sidebar .brand,
+            .btn-primary,
+            .slidebar,
+            .modal .modal-header,
+            .badge {
+                @include change-theme-transition();
+                background-color: $main !important;
+            }
+
+            .files-table .file-item.selected,
+            .move-file-modal ul.files-list li.dir-item.selected:before {
+                @include change-theme-transition();
+                background-color: lighten($secondary, 8%) !important;
+            }
+
+            .header,
+            .footer,
+            .btn-secondary,
+            .upload-modal .files-to-upload .file-item .start-upload .progress .progress-bar,
+            .movefile-modal ul.files-list li.dir-item.selected:before
+            {
+                @include change-theme-transition();
+                background-color: $secondary !important;
+            }
+
+            .checkbox input[type='checkbox']:checked+.checkbox-text:before {
+                @include change-theme-transition();
+                background-color: $main !important;
+                border: 0.05em solid $main !important;
+            }
+
+            .btn-outline {
+                &:hover {
+                    background-color: $main;
+                }
+            }
+
+            .btn-svg svg path {
+                @include change-theme-transition();
+                fill: $main;
+            }
+
+            .info-list .info-item .info-icon svg path {
+                @include change-theme-transition();
+                fill: $secondary;
+            }
+
+            .loader:after {
+                border-color: $main;
+                border-right-color: $secondary;
+                border-left-color: $secondary;
+            }
+        }
+    }
+}

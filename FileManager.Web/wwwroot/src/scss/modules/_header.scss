@@ -1,0 +1,94 @@
+$headerHeight: 70px;
+
+.fm-wrapper {
+
+    .header {
+        height: $headerHeight;
+        line-height: 70px;
+        padding: 0 25px;
+        background-color: $secondaryColor;
+        color: #FFF;
+
+        svg path {
+            fill: #FFF;
+        }
+
+        form.search-form {
+            width: 70%;
+
+            label {
+                display: inline-block;
+                width: 100%;
+
+                .svg-icon {
+                    margin-right: 16px;
+                }
+
+                .search-input {
+                    @extend %input;
+                    width: calc(100% - 65px);
+                    height: 45px;
+                    vertical-align: middle;
+                    padding-right: 10px;
+                    padding-left: 10px;
+                    @include font(arvo);
+                    font-size: font-size(2);
+                    font-weight: 300;
+
+                    &::placeholder {
+                        font-style: italic;
+                    }
+
+                    &:focus::placeholder {
+                        color: transparent;
+                    }
+                }
+            }
+        }
+
+        > div {
+            $borderTopWidth: 4px;
+            .slidebar {
+                position: absolute;
+                top: 66px;
+                right: -100px;
+                height: calc(100% -
+                    ((#{$headerHeight} - #{$borderTopWidth}) + 100px) // (header - border-top) + footer
+                );
+                width: 100px;
+                z-index: 9;
+                background-color: $mainColor;
+                border-top: $borderTopWidth solid #FFF;
+                transition: .3s;
+
+                ul {
+                    li {
+                        a {
+                            display: inline-block;
+                            width: 100%;
+
+                            &:after {
+                                content: '';
+                                display: block;
+                                height: 4px;
+                                width: 0;
+                                background-color: #FFF;
+                                transition: width .2s;
+                            }
+
+                            &:hover {
+                                &:after {
+                                    width: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .slidebar.show {
+                right: 0;
+            }
+        }
+    }
+}

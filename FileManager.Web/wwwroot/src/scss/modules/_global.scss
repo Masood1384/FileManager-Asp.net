@@ -1,0 +1,94 @@
+.fm-wrapper {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    @include font(arvo);
+    font-size: font-size(1.4);
+
+    main.main-panel {
+        height: 100%;
+        width: calc(100% - #{$sidebarWidth});
+
+        .toolbar, .table-section {
+            border-left: 1px solid $borderColor;
+        }
+
+        .table-section {
+            height: calc(100% - (#{$footerHeight} + #{$toolbarHeight} + #{$headerHeight}));
+        }
+    }
+
+
+    button, input, h1, h2, h3, h4, h5, h6, p, label {
+        @include font(roboto);
+
+        &::first-letter {
+            text-transform: capitalize;
+        }
+
+        * {
+            font-family: inherit;
+        }
+    }
+
+    button {
+        font-size: font-size(1.5);
+    }
+
+    button, input[type='button'] {
+        text-transform: capitalize;
+    }
+
+    /**
+     * Global style for files list items.
+     *
+     * - .sidebar .files-section
+     * - .move-file-modal .files-section
+     */
+    .files-section {
+        overflow: auto;
+
+        .files-list {
+
+            li.item {
+                padding: 4px;
+                cursor: pointer;
+
+                &.dir-item[data-open=false]:hover, &.file-item:hover {
+                    opacity: .8;
+                }
+                
+                &[data-open=false] {
+                    > .icon-expend {
+                        display: none;
+                    }
+
+                    .sub-files {
+                        display: none;
+                    }
+                }
+
+                &[data-open=true] {
+                    > .icon-contract {
+                        display: none;
+                    }
+                }
+
+                .svg-icon {
+                    user-select: none;
+                    margin-right: 5px;
+                }
+
+                .name {
+                    white-space: pre;
+                    vertical-align: middle;
+                }
+
+                .sub-files {
+                    transition: all 2s ease;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}

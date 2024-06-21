@@ -1,0 +1,70 @@
+$modalPadding: 25px;
+$modalBorderRadius: 4px;
+
+.fm-wrapper {
+
+    .modal-overlay.show {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(#000, .8);
+        transition: .5s;
+        z-index: 0;
+    }
+
+    .modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 470px;
+        box-shadow: 0 0 3px 1px #333;
+        border-radius: $modalBorderRadius;
+        overflow: hidden;
+        transform: translate(-50%, 200%);
+        transition: transform .3s ease-out !important;
+        opacity: 0;
+        z-index: 9;
+        color: #FFF;
+
+        &.show {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        .modal-header, .modal-footer {
+            padding: $modalPadding;
+        }
+
+        .modal-header {
+            position: relative;
+            overflow: hidden;
+            background-color: $mainColor;
+
+            .close {
+                @include vertical-center('absolute');
+                right: 10px;
+                font-size: 2rem;
+            }
+        }
+
+        .modal-body, .modal-footer {
+            background-color: #FFF;
+        }
+
+        .modal-body {
+            color: $textColor;
+            padding: $modalPadding;
+        }
+
+        .modal-footer {
+            border: 1px solid $borderColor;
+            padding: 15px $modalPadding;
+            
+            button:not(:last-of-type) {
+                margin-right: .5rem;
+            }
+        }
+    }
+}

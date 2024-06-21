@@ -1,0 +1,56 @@
+$sidebarWidth: 270px;
+
+$brandHeight: 70px;
+$bottomHeight: 65px;
+$filesListHeight: calc(100% - (#{$brandHeight} + #{$bottomHeight}));
+
+.fm-wrapper {
+
+    .sidebar {
+        height: 100%;
+        width: $sidebarWidth;
+        background-color: map_get($colors, 'white');
+
+        .brand {
+            height: $brandHeight;
+            width: 100%;
+            background-color: $mainColor;
+            color: #FFF;
+
+            .link {
+                height: 100%;
+                display: block;
+
+                .name {
+                    @include vertical-center();
+                    font-size: font-size(3);
+                    font-weight: bold;
+                    @include font(Arvo);
+                    letter-spacing: 1px;
+                    color: map_get($colors, 'white');
+                }
+            }
+
+            .logo {
+                height: 95%;
+                width: 250px;
+            }
+        }
+
+        .files-section {
+            height: $filesListHeight;
+            padding: 10px 15px;
+            color: $textColor;
+            animation: sidebarContentAnimation .3s ease-in;
+        }
+
+        .bottom {
+            height: $bottomHeight;
+
+            button {
+                @include vertical-center();
+                width: 70%;
+            }
+        }
+    }
+}

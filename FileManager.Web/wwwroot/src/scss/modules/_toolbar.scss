@@ -1,0 +1,42 @@
+$toolbarHeight: 45px;
+
+.fm-wrapper {
+
+    .toolbar {
+        position: relative;
+        height: $toolbarHeight;
+        padding: 0 25px;
+        border-bottom: 1px solid $borderColor;
+        background-color: map_get($colors, 'white');
+        z-index: 0;
+
+        nav {
+
+            ul {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+
+                li.toolbar-item {
+
+                    button {
+                        height: $toolbarHeight;
+                        background-color: transparent;
+                        border: none;
+                        border-radius: 0;
+                        padding: 8px 12px;
+
+                        &:hover, &:focus {
+                            transition: background-color .3s linear;
+                            background-color: #FFF;
+                        }
+
+                        svg {
+                            height: 22px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+.fm-wrapper {
+
+    .loading {
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            display: block;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f4f4f4;
+            z-index: 1;
+        }
+
+        &::after {
+            display: block;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, transparent, rgba(230, 230, 230, 0.8), transparent);
+            animation: loadingAnimation 1s infinite ease-in-out;
+            z-index: 2;
+        }
+    }
+}

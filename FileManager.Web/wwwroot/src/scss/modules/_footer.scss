@@ -1,0 +1,44 @@
+$footerHeight: 100px;
+
+.fm-wrapper {
+
+    footer.footer {
+        height: $footerHeight;
+        border-left: 1px solid $borderColor;
+        padding: 0 25px;
+        background-color: $secondaryColor;
+        color: #FFF;
+
+        .left-buttons, .right-buttons {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .left-buttons {
+            width: 31%;
+        }
+
+        .separator {
+            display: inline-block;
+            height: 2px;
+            width: 65px;
+            position: relative;
+            top: 50%;
+            transform: rotate(90deg);
+            background-color: #FFF;
+        }
+
+        .right-buttons {
+            width: calc(69% - 65px);
+        }
+
+        label[for='fileUpload'] {
+            display: inline-block;
+
+            input[type='file'] {
+                display: none;
+            }
+        }
+    }
+}
