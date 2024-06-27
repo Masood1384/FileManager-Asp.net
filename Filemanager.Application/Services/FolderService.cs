@@ -15,14 +15,26 @@ namespace Filemanager.Application.Services
             var folder = _mapper.Map<Folder>(folderDto);
             var res = await _context.Folders.AddAsync(folder);
             await _context.SaveChangesAsync();
-            return _mapper.Map<FolderDto>(res);
+            return _mapper.Map<FolderDto>(folder);
         }
 
-        public async Task<bool> DeleteFolder(Guid folderId)
+        public async Task<bool> DeleteFolderAndFile(List<Guid> SelectedFolder)
         {
-            var folder = await _context.Folders.FirstOrDefaultAsync(x => x.Id == folderId);
-            _context.Folders.Remove(folder);
-            await _context.SaveChangesAsync();
+            foreach (var item in SelectedFolder)
+            {
+                var folder = await _context.Folders.FindAsync(item);
+                if (folder != null)
+                {
+                    _context.Folders.Remove(folder);
+                    await _context.SaveChangesAsync();
+                }
+                var file = await _context.Files.FindAsync(item);
+                if (file != null)
+                {
+                    _context.Files.Remove(file);
+                    await _context.SaveChangesAsync();
+                }
+            }
             return true;
         }
 
@@ -37,12 +49,36 @@ namespace Filemanager.Application.Services
             return _mapper.Map<List<FolderDto>>(folders);
         }
 
-        public async Task<FolderDto> MoveFolder(Guid FolderId, Guid ToFolderId)
+        public async Task<FolderDto> MoveFolderAndFile(Guid Id, Guid ToFolderId)
         {
-            var folder =await _context.Folders.FirstOrDefaultAsync(p=>p.Id == FolderId);
-            folder.ParentId = ToFolderId;
-            _context.Folders.Update(folder);
-            await _context.SaveChangesAsync();
+            var folder =await _context.Folders.FirstOrDefaultAsync(p=>p.Id == Id);
+            if (folder != null)
+            {
+                if (ToFolderId != Guid.Empty)
+                {
+                    folder.ParentId = ToFolderId;
+                }
+                else
+                {
+                    folder.ParentId = null;
+                }
+                _context.Folders.Update(folder);
+                await _context.SaveChangesAsync();
+            }
+            if(folder == null)
+            {
+                var file = await _context.Files.FirstOrDefaultAsync(p=>p.Id==Id);
+                if (ToFolderId != Guid.Empty)
+                {
+                    file.FolderId = ToFolderId;
+                }
+                else
+                {
+                    file.FolderId = null;
+                }
+                _context.Files.Update(file);
+                await _context.SaveChangesAsync();
+            }
             return _mapper.Map<FolderDto>(folder);
         }
 

@@ -15,7 +15,7 @@ namespace Filemanager.Application.Tools
 
                 #region Folder
                 config.CreateMap<Folder, FolderDto>().ReverseMap();
-                config.CreateMap<AddFileDto, Folder>();
+                config.CreateMap<AddFolderDto, Folder>();
                 config.CreateMap<UpdateFolderDto, Folder>();
                 #endregion
             });

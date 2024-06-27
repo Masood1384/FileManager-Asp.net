@@ -1,5 +1,6 @@
 ﻿using Filemanager.Application.Constract;
 using Filemanager.Application.DTOS;
+using FileManager.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileManager.Web.Controllers
@@ -23,19 +24,7 @@ namespace FileManager.Web.Controllers
             addFile.Name = Path.GetFileNameWithoutExtension(addFile.FileUpload.FileName);
             addFile.extension = Path.GetExtension(addFile.FileUpload.FileName);
             await _fileService.AddFiles(addFile);
-            return RedirectToAction("Index", "Home");
-        }
-        [HttpPost]
-        public async Task<IActionResult> MoveFolder(Guid FileId, Guid FolderId)
-        {
-            await _fileService.MoveFile(FileId, FolderId);
-            return RedirectToAction("Index", "Home");
-        }
-        [HttpPost]
-        public async Task<IActionResult> RemoveFile(Guid FileId)
-        {
-            await _fileService.DeleteFiles(FileId);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { FolderId = addFile.FolderId });
         }
         [HttpPost]
         public async Task<IActionResult> RenameFile(Guid FileId,string filename)

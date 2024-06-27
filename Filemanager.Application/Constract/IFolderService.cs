@@ -7,7 +7,7 @@ namespace Filemanager.Application.Constract
         Task<List<FolderDto>> GetFolderByFolder(Guid folderId);
         Task<FolderDto> AddFolder(AddFolderDto folderDto);
         Task<FolderDto> UpdateFolder(UpdateFolderDto folderDto);
-        Task<bool> DeleteFolder(Guid folderId);
-        Task<FolderDto> MoveFolder(Guid FolderId, Guid ToFolderId);
+        Task<bool> DeleteFolderAndFile(List<Guid> SelectedFolder);
+        Task<FolderDto> MoveFolderAndFile(Guid Id, Guid ToFolderId);
     }
 }

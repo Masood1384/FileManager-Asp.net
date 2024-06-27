@@ -1,4 +1,5 @@
-﻿@model MainModel
+﻿@using static FileManager.Web.Controllers.FolderController
+@model MainModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -135,7 +136,67 @@
                     </tr>
                 </thead>
                 <tbody>
-                <partial name="../Partials/_Main" model="@Model" />
+                <form asp-action="Tool" asp-controller="Folder" method="post" asp-route-folderId="@Model.FolderId">
+                    <!-- Remove File Modal Start -->
+                    <div class="modal remove-file-modal" id="removeFileModal">
+                        <div class="modal-header">
+                            <h3 class="modal-title float-lt">remove file</h3>
+                            <button class="close float-rt btn-icon-reset" data-close="modal" type="button">
+                                ×
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3 class="w-medium">are you sure to remove <span class="filename badge"></span> ?</h3>
+                            <div class="alert error">
+                                <strong>error!</strong>
+                                <span class="text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer text-right">
+                            <input type="hidden" name="folderId" value="@Model.FolderId" />
+                            @* <button class="btn-secondary" id="removeFileBtn" type="submit">
+                                Yes
+                            </button> *@
+                            <input type="submit" class="btn-secondary" id="removeFileBtn" value="Yes" asp-route-controllerState="@ContrallerState.Remove" asp-action="Tool" asp-controller="Folder" />
+                            <button class="btn-outline close-modal" data-close="modal" type="button">
+                                No
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Remove File Modal End -->
+                    <!-- Move File Modal Start -->
+                    <div class="modal move-file-modal" id="moveFileModal">
+                        <div class="modal-header">
+                            <h3 class="modal-title float-lt">move file</h3>
+                            <button class="close float-rt btn-icon-reset" data-close="modal" type="button">
+                                ×
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="moving-to">
+                                moving <span class="source badge"></span>
+                                to <span class="destination badge">css/plugins/codemirror</span>
+                            </h4>
+                            <partial name="../Partials/_MovePanel" model="@Model.Folder">
+                                <div class="alert error">
+                                    <strong>error!</strong>
+                                    <span class="text"></span>
+                                </div>
+                        </div>
+                        <div class="modal-footer text-right">
+                            @* <button class="btn-secondary" id="moveFileBtn" type="submit">
+                                move
+                            </button> *@
+                            <input type="submit" class="btn-secondary" id="removeFileBtn" value="Yes" asp-route-controllerState="@ContrallerState.Move" asp-action="Tool" asp-controller="Folder" />
+                            <button class="btn-outline" data-close="modal" type="button">
+                                cancel
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Move File Modal End -->
+                    <partial name="../Partials/_Main" model="@Model" />
+                    </form>
+                
                 </tbody>
             </table>
         </div>
@@ -143,15 +204,6 @@
         <!-- Footer Start -->
         <footer class="footer loading">
             <div class="left-buttons float-lt">
-                <button class="btn-big-svg btn-icon-reset" data-action="refresh" type="button">
-                    <svg fill="none" height="42" viewBox="0 0 60 42" width="60" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 17.9998H15.303L15.306 17.9728C15.6977 16.0546 16.4644 14.2327 17.562 12.6116C19.1954 10.205 21.4864 8.31897 24.162 7.17845C25.068 6.79444 26.013 6.50043 26.976 6.30542C28.9737 5.90039 31.0323 5.90039 33.03 6.30542C35.9009 6.89372 38.5353 8.31372 40.605 10.3885L44.853 6.15242C42.9384 4.23727 40.6733 2.70843 38.181 1.64928C36.91 1.11115 35.5884 0.701107 34.236 0.425239C31.4455 -0.141746 28.5695 -0.141746 25.779 0.425239C24.4256 0.70225 23.103 1.11329 21.831 1.65228C18.0826 3.24263 14.8738 5.88268 12.591 9.25451C11.0547 11.5281 9.98029 14.0816 9.429 16.7697C9.345 17.1748 9.3 17.5888 9.24 17.9998H0L12 30.0002L24 17.9998ZM36 24H44.697L44.694 24.024C43.9102 27.8694 41.6437 31.2515 38.385 33.4383C36.7644 34.5368 34.9424 35.3036 33.024 35.6943C31.0273 36.0994 28.9697 36.0994 26.973 35.6943C25.0549 35.3026 23.233 34.5359 21.612 33.4383C20.8159 32.8997 20.0725 32.287 19.392 31.6082L15.15 35.8503C17.0655 37.765 19.3318 39.2928 21.825 40.3505C23.097 40.8905 24.426 41.3015 25.77 41.5745C28.5594 42.1418 31.4346 42.1418 34.224 41.5745C39.6016 40.4584 44.3318 37.2886 47.409 32.7392C48.9438 30.4673 50.0172 27.9159 50.568 25.23C50.649 24.825 50.697 24.411 50.757 24H60L48 11.9996L36 24Z"
-                              fill="white" />
-                    </svg>
-                    <span class="btn-text">
-                        Refresh
-                    </span>
-                </button>
                 <button class="btn-big-svg btn-icon-reset" data-action="add-folder" data-modal="#addFolderModal"
                         type="button">
                     <svg fill="none" height="42" viewBox="0 0 51 42" width="51" xmlns="http://www.w3.org/2000/svg">
@@ -231,52 +283,27 @@
             ×
         </button>
     </div>
-    <div class="modal-body">
-        <div class="input-field">
-            <label for="folderName">Name</label>
-            <input id="folderName" placeholder="Folder Name" type="text">
+    <form asp-action="CreateFolder" asp-controller="Folder" method="post">
+        <div class="modal-body">
+            <div class="input-field">
+                <label for="folderName">Name</label>
+                <input name="ParentId" type="hidden" value="@Model.FolderId" />
+                <input name="Name" id="folderName" placeholder="Folder Name" type="text">
+            </div>
+            <div class="alert error">
+                <strong>error!</strong>
+                <span class="text"></span>
+            </div>
         </div>
-        <div class="alert error">
-            <strong>error!</strong>
-            <span class="text"></span>
+        <div class="modal-footer text-right">
+            <button class="btn-secondary" id="addFolderBtn" type="submit">
+                add
+            </button>
+            <button class="btn-outline" data-close="modal" type="button">
+                cancel
+            </button>
         </div>
-    </div>
-    <div class="modal-footer text-right">
-        <button class="btn-secondary" id="addFolderBtn" type="button">
-            add
-        </button>
-        <button class="btn-outline" data-close="modal" type="button">
-            cancel
-        </button>
-    </div>
-</div>
-<!-- Add Folder Modal End -->
-<!-- Add Folder Modal Start -->
-<div class="modal" id="addFolderModal">
-    <div class="modal-header">
-        <h3 class="modal-title float-lt">add folder</h3>
-        <button class="close float-rt btn-icon-reset" data-close="modal" type="button">
-            ×
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="input-field">
-            <label for="folderName">Name</label>
-            <input id="folderName" placeholder="Folder Name" type="text">
-        </div>
-        <div class="alert error">
-            <strong>error!</strong>
-            <span class="text"></span>
-        </div>
-    </div>
-    <div class="modal-footer text-right">
-        <button class="btn-secondary" id="addFolderBtn" type="button">
-            add
-        </button>
-        <button class="btn-outline" data-close="modal" type="button">
-            cancel
-        </button>
-    </div>
+    </form>
 </div>
 <!-- Upload Modal Start -->
 <div class="modal upload-modal" id="uploadModal">
@@ -289,62 +316,17 @@
     <form asp-action="CreateFile" asp-controller="File" method="post" enctype="multipart/form-data" id="uploadFilesForm">
         <div class="modal-body">
 
-
+            <input type="hidden" value="@Model.FolderId" name="FolderId" />
             <div class="input-field">
                 <label>
                     uploading files to :
-                    <span class="uploading-folder badge">/</span>
+                    <span class="uploading-folder badge">.../</span>
                 </label>
                 <label class="btn-upload text-center" for="uploadFilesBtn">
                     Select your files
                     <input id="uploadFilesBtn" name="FileUpload" multiple type="file">
                 </label>
                 <input name="FolderId" type="hidden" />
-            </div>
-
-            <ul class="files-to-upload">
-                <li class="file-item" data-name="mamak.zip">
-                    <h3 class="name float-lt">mamak.zip</h3>
-                    <span class="size">55 KB</span>
-                    <button class="remove-upload-file btn-icon-reset" type="button">
-                        ×
-                    </button>
-                    <div class="start-upload">
-                        <em class="upload-state">Uploading ...</em>
-                        <span class="percentage">15%</span>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 25%;">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="file-error">
-                        <strong>error!</strong>
-                        <span class="text">error file</span>
-                    </div>
-                </li>
-                <li class="file-item" data-name="file1.zip">
-                    <h3 class="name float-lt">file1.zip</h3>
-                    <span class="size">2.5 MB</span>
-                    <button class="remove-upload-file btn-icon-reset" type="button">
-                        ×
-                    </button>
-                    <div class="start-upload">
-                        <em class="upload-state">Uploading ...</em>
-                        <span class="percentage">75%</span>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 75%;">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="file-error">
-                        <strong>error!</strong>
-                        <span class="text">error file</span>
-                    </div>
-                </li>
-            </ul>
-            <div class="alert error">
-                <strong>error!</strong>
-                <span class="text"></span>
             </div>
         </div>
         <div class="modal-footer text-right">
@@ -359,31 +341,7 @@
 </div>
 
 <!-- Upload Modal End -->
-<!-- Remove File Modal Start -->
-<div class="modal remove-file-modal" id="removeFileModal">
-    <div class="modal-header">
-        <h3 class="modal-title float-lt">remove file</h3>
-        <button class="close float-rt btn-icon-reset" data-close="modal" type="button">
-            ×
-        </button>
-    </div>
-    <div class="modal-body">
-        <h3 class="w-medium">are you sure to remove <span class="filename badge"></span> ?</h3>
-        <div class="alert error">
-            <strong>error!</strong>
-            <span class="text"></span>
-        </div>
-    </div>
-    <div class="modal-footer text-right">
-        <button class="btn-secondary" id="removeFileBtn" type="button">
-            Yes
-        </button>
-        <button class="btn-outline close-modal" data-close="modal" type="button">
-            No
-        </button>
-    </div>
-</div>
-<!-- Remove File Modal End -->
+
 <!-- Rename File Modal Start -->
 <div class="modal rename-file-modal" id="renameFileModal">
     <div class="modal-header">
@@ -441,109 +399,5 @@
     </div>
 </div>
 <!-- Edit File Modal End -->
-<!-- Move File Modal Start -->
-<div class="modal move-file-modal" id="moveFileModal">
-    <div class="modal-header">
-        <h3 class="modal-title float-lt">move file</h3>
-        <button class="close float-rt btn-icon-reset" data-close="modal" type="button">
-            ×
-        </button>
-    </div>
-    <div class="modal-body">
-        <h4 class="moving-to">
-            moving <span class="source badge"></span>
-            to <span class="destination badge">css/plugins/codemirror</span>
-        </h4>
-        <div class="files-section">
-            <ul class="files-list">
-                <li class="dir-item item" data-open="false">
-                    <svg class="icon-contract svg-icon" fill="none" height="13" viewBox="0 0 17 13" width="17">
-                        <path d="M17 3.33337V12C17 12.5523 16.5523 13 16 13H1C0.447715 13 0 12.5523 0 12V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                              fill="#58595B" />
-                    </svg>
-                    <svg class="icon-expend svg-icon" fill="none" height="13" viewBox="0 0 19 13" width="19">
-                        <path d="M17 3.33337V13H0V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                              fill="#58595B" />
-                        <path d="M16.9999 13H-0.00012207L1.36661 4.34404C1.44335 3.85799 1.8623 3.5 2.35437 3.5H17.3296C17.9441 3.5 18.4133 4.049 18.3174 4.65597L16.9999 13Z"
-                              fill="#C0C0C0" />
-                    </svg>
-                    <span class="name">libs</span>
-                </li>
-                <li class="dir-item item" data-open="true">
-                    <svg class="icon-contract svg-icon" fill="none" height="13" viewBox="0 0 17 13" width="17">
-                        <path d="M17 3.33337V12C17 12.5523 16.5523 13 16 13H1C0.447715 13 0 12.5523 0 12V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                              fill="#58595B" />
-                    </svg>
-                    <svg class="icon-expend svg-icon" fill="none" height="13" viewBox="0 0 19 13" width="19">
-                        <path d="M17 3.33337V13H0V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                              fill="#58595B" />
-                        <path d="M16.9999 13H-0.00012207L1.36661 4.34404C1.44335 3.85799 1.8623 3.5 2.35437 3.5H17.3296C17.9441 3.5 18.4133 4.049 18.3174 4.65597L16.9999 13Z"
-                              fill="#C0C0C0" />
-                    </svg>
-                    <span class="name">css</span>
-                    <ul class="sub-files">
-                        <li class="dir-item item" data-open="false">
-                            <svg class="icon-contract svg-icon" fill="none" height="13" viewBox="0 0 17 13"
-                                 width="17">
-                                <path d="M17 3.33337V12C17 12.5523 16.5523 13 16 13H1C0.447715 13 0 12.5523 0 12V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                                      fill="#58595B" />
-                            </svg>
-                            <svg class="icon-expend svg-icon" fill="none" height="13" viewBox="0 0 19 13" width="19">
-                                <path d="M17 3.33337V13H0V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                                      fill="#58595B" />
-                                <path d="M16.9999 13H-0.00012207L1.36661 4.34404C1.44335 3.85799 1.8623 3.5 2.35437 3.5H17.3296C17.9441 3.5 18.4133 4.049 18.3174 4.65597L16.9999 13Z"
-                                      fill="#C0C0C0" />
-                            </svg>
-                            <span class="name">sass</span>
-                        </li>
-                        <li class="dir-item item" data-open="true">
-                            <svg class="icon-contract svg-icon" fill="none" height="13" viewBox="0 0 17 13"
-                                 width="17">
-                                <path d="M17 3.33337V12C17 12.5523 16.5523 13 16 13H1C0.447715 13 0 12.5523 0 12V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                                      fill="#58595B" />
-                            </svg>
-                            <svg class="icon-expend svg-icon" fill="none" height="13" viewBox="0 0 19 13" width="19">
-                                <path d="M17 3.33337V13H0V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                                      fill="#58595B" />
-                                <path d="M16.9999 13H-0.00012207L1.36661 4.34404C1.44335 3.85799 1.8623 3.5 2.35437 3.5H17.3296C17.9441 3.5 18.4133 4.049 18.3174 4.65597L16.9999 13Z"
-                                      fill="#C0C0C0" />
-                            </svg>
-                            <span class="name">plugins</span>
-                            <ul class="sub-files">
-                                <li class="dir-item item selected" data-open="true">
-                                    <svg class="icon-contract svg-icon" fill="none" height="13" viewBox="0 0 17 13"
-                                         width="17">
-                                        <path d="M17 3.33337V12C17 12.5523 16.5523 13 16 13H1C0.447715 13 0 12.5523 0 12V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                                              fill="#58595B" />
-                                    </svg>
-                                    <svg class="icon-expend svg-icon" fill="none" height="13" viewBox="0 0 19 13"
-                                         width="19">
-                                        <path d="M17 3.33337V13H0V2.33337V1C0 0.447715 0.447715 0 1 0H6.54006C6.83199 0 7.10934 0.127565 7.29932 0.349215L9 2.33337H16C16.5523 2.33337 17 2.78109 17 3.33337Z"
-                                              fill="#58595B" />
-                                        <path d="M16.9999 13H-0.00012207L1.36661 4.34404C1.44335 3.85799 1.8623 3.5 2.35437 3.5H17.3296C17.9441 3.5 18.4133 4.049 18.3174 4.65597L16.9999 13Z"
-                                              fill="#C0C0C0" />
-                                    </svg>
-                                    <span class="name">codemirror</span>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="alert error">
-            <strong>error!</strong>
-            <span class="text"></span>
-        </div>
-    </div>
-    <div class="modal-footer text-right">
-        <button class="btn-secondary" id="moveFileBtn" type="button">
-            move
-        </button>
-        <button class="btn-outline" data-close="modal" type="button">
-            cancel
-        </button>
-    </div>
-</div>
-<!-- Move File Modal End -->
+
 
