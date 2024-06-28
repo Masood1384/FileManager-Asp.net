@@ -84,10 +84,18 @@ namespace Filemanager.Application.Services
 
         public async Task<FolderDto> UpdateFolder(UpdateFolderDto folderDto)
         {
-            var folder = _mapper.Map<Folder>(folderDto);
-            var res = _context.Folders.Update(folder);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<FolderDto>(res);
+            var folder = await _context.Folders.FirstOrDefaultAsync(p=>p.Id == folderDto.Id);
+            if (folder != null)
+            {
+                if (folderDto.Name != null)
+                {
+                    folder.Name = folderDto.Name;
+                    var res = _context.Folders.Update(folder);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            
+            return _mapper.Map<FolderDto>(folder);
         }
     }
 }

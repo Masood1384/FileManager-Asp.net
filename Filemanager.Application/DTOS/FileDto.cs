@@ -5,7 +5,8 @@ namespace Filemanager.Application.DTOS
     {
         public string Name { get; set; }
         public string extension { get; set; }
-        public string File { get; set; }
+        public byte[] File { get; set; }
+        public string FileString { get; set; }
         public long Size { get; set; }
         public Guid? FolderId { get; set; }
 

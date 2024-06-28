@@ -26,7 +26,7 @@ namespace FileManager.Web.Controllers
             await _fileService.AddFiles(addFile);
             return RedirectToAction("Index", "Home", new { FolderId = addFile.FolderId });
         }
-        [HttpPost]
+     
         public async Task<IActionResult> RenameFile(Guid FileId,string filename)
         {
             await _fileService.RenameFile(filename,FileId);

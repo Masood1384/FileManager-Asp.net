@@ -59,26 +59,30 @@ namespace FileManager.Web.Controllers
                  await RemoveFileAndFolder(SelectedFolder, SelectedFile, folderId);
             if (controllerState == ContrallerState.Move)
                 await MoveFolderAndFile(SelectedFolder.FirstOrDefault(), ToFolder);
-            if(controllerState == ContrallerState.EditFolder)
+            if(controllerState == ContrallerState.Edit)
             {
-                UpdateFolderDto updateFolder = new()
+                if(SelectedFolder?.Count != 0)
                 {
-                    Id = SelectedFolder.FirstOrDefault(),
-                    Name = name,
-                    ParentId = folderId
-                };
-                await EditFolder(updateFolder);
+                    UpdateFolderDto updateFolder = new()
+                    {
+                        Id = SelectedFolder.FirstOrDefault(),
+                        Name = name,
+                        ParentId = folderId
+                    };
+                    await EditFolder(updateFolder);
+                }
+                else if (SelectedFile?.Count != 0)
+                {
+                    return RedirectToAction("RenameFile", "File", new { FileId = SelectedFile.FirstOrDefault(), filename = name });
+                }
             }
-            if(controllerState == ContrallerState.EditFile)
-                RedirectToAction("RenameFile", "File", new { FileId = SelectedFile.FirstOrDefault(), filename =name });
             return RedirectToAction("Index", "Home", new { FolderId = folderId });
         }
         public enum ContrallerState
         {
             Remove,
             Move,
-            EditFile,
-            EditFolder
+            Edit
         }
     }
 }

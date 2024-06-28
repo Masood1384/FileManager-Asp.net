@@ -133,6 +133,7 @@
                         <th>size</th>
                         <th>Added time</th>
                         <th>modified time</th>
+                        <th>more</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -187,13 +188,42 @@
                             @* <button class="btn-secondary" id="moveFileBtn" type="submit">
                                 move
                             </button> *@
-                            <input type="submit" class="btn-secondary" id="removeFileBtn" value="Yes" asp-route-controllerState="@ContrallerState.Move" asp-action="Tool" asp-controller="Folder" />
+                            <input type="submit" class="btn-secondary" id="moveFileBtn" value="Yes" asp-route-controllerState="@ContrallerState.Move" asp-action="Tool" asp-controller="Folder" />
                             <button class="btn-outline" data-close="modal" type="button">
                                 cancel
                             </button>
                         </div>
                     </div>
                     <!-- Move File Modal End -->
+                    <!-- Rename File Modal Start -->
+                    <div class="modal rename-file-modal" id="renameFileModal">
+                        <div class="modal-header">
+                            <h3 class="modal-title float-lt">rename file</h3>
+                            <button class="close float-rt btn-icon-reset" data-close="modal" type="button">
+                                ×
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-field">
+                                <label for="newFileName">New Name for<span class="name-for badge"></span></label>
+                                <input id="newFileName" name="name" placeholder="New Name" type="text">
+                            </div>
+                            <div class="alert error">
+                                <strong>error!</strong>
+                                <span class="text"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer text-right">
+                            @* <button class="btn-secondary" id="renameFileBtn" type="button">
+                                rename
+                            </button> *@
+                            <input type="submit" class="btn-secondary" id="renameFileBtn" value="rename" asp-route-controllerState="@ContrallerState.Edit" asp-action="Tool" asp-controller="Folder" />
+                            <button class="btn-outline" data-close="modal" type="button">
+                                cancel
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Rename File Modal End -->
                     <partial name="../Partials/_Main" model="@Model" />
                     </form>
                 
@@ -261,15 +291,7 @@
                         move
                     </span>
                 </button>
-                <button class="btn-big-svg btn-icon-reset" data-action="download" disabled type="button">
-                    <svg fill="none" height="42" viewBox="0 0 60 42" width="60" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50.4 18.2438C50.7844 17.2406 51 16.1438 51 15C51 10.0313 46.9688 6 42 6C40.1531 6 38.4281 6.5625 37.0031 7.51875C34.4063 3.01875 29.5594 0 24 0C15.7125 0 9 6.7125 9 15C9 15.2531 9.00938 15.5063 9.01875 15.7594C3.76875 17.6063 0 22.6125 0 28.5C0 35.9531 6.04688 42 13.5 42H48C54.6281 42 60 36.6281 60 30C60 24.1969 55.875 19.35 50.4 18.2438ZM37.9406 26.5594L28.0594 36.4406C27.4781 37.0219 26.5219 37.0219 25.9406 36.4406L16.0594 26.5594C15.1125 25.6125 15.7875 24 17.1188 24H23.25V13.5C23.25 12.675 23.925 12 24.75 12H29.25C30.075 12 30.75 12.675 30.75 13.5V24H36.8813C38.2125 24 38.8875 25.6125 37.9406 26.5594V26.5594Z"
-                              fill="white" />
-                    </svg>
-                    <span class="btn-text">
-                        download
-                    </span>
-                </button>
+            
             </div>
         </footer>
         <!-- Footer End -->
@@ -341,35 +363,6 @@
 </div>
 
 <!-- Upload Modal End -->
-
-<!-- Rename File Modal Start -->
-<div class="modal rename-file-modal" id="renameFileModal">
-    <div class="modal-header">
-        <h3 class="modal-title float-lt">rename file</h3>
-        <button class="close float-rt btn-icon-reset" data-close="modal" type="button">
-            ×
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="input-field">
-            <label for="newFileName">New Name for<span class="name-for badge"></span></label>
-            <input id="newFileName" placeholder="New Name" type="text">
-        </div>
-        <div class="alert error">
-            <strong>error!</strong>
-            <span class="text"></span>
-        </div>
-    </div>
-    <div class="modal-footer text-right">
-        <button class="btn-secondary" id="renameFileBtn" type="button">
-            rename
-        </button>
-        <button class="btn-outline" data-close="modal" type="button">
-            cancel
-        </button>
-    </div>
-</div>
-<!-- Rename File Modal End -->
 <!-- Edit File Modal Start -->
 <div class="modal editor-modal" id="editorModal">
     <div class="modal-header">

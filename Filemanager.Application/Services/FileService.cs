@@ -19,6 +19,14 @@ namespace Filemanager.Application.Services
             files.Size = file.FileUpload.Length;
             files.Name = file.Name;
             files.extension = file.extension;
+            if(file.FolderId == Guid.Empty)
+            {
+                files.FolderId = null;
+            }
+            else
+            {
+                files.FolderId = file.FolderId;
+            }
             await _context.Files.AddAsync(files);
             await _context.SaveChangesAsync();
             return _mapper.Map<FileDto>(files);
@@ -35,12 +43,28 @@ namespace Filemanager.Application.Services
         public async Task<List<FileDto>> GetAllFileByFolder(Guid folderId)
         {
             var file = _context.Files.Where(p => p.FolderId == folderId);
+            var filedto = _mapper.Map<List<FileDto>>(file);
+            foreach (var item in filedto)
+            {
+                item.FileString = Extension.ConvertByteArrayToBase64string(item.File);
+            }
             return _mapper.Map<List<FileDto>>(file);
         }
 
         public async Task<List<FileDto>> GetAllFiles()
         {
-            return _mapper.Map<List<FileDto>>(await _context.Files.ToListAsync());
+            var filedto = _mapper.Map<List<FileDto>>(await _context.Files.ToListAsync());
+            foreach(var item in filedto)
+            {
+                item.FileString = Extension.ConvertByteArrayToBase64string(item.File);
+            }
+            return filedto;
+        }
+
+        public async Task<FileDto> GetFileById(Guid id)
+        {
+            var file = await _context.Files.FindAsync(id);
+            return _mapper.Map<FileDto>(file);
         }
 
         public async Task<FileDto> MoveFile(Guid FileId, Guid FolderId)
@@ -55,7 +79,9 @@ namespace Filemanager.Application.Services
         public async Task<FileDto> RenameFile(string Filename, Guid fileId)
         {
             var file = await _context.Files.FirstOrDefaultAsync(p => p.Id == fileId);
-            file.Name = Filename;
+            if(Filename != null)
+                file.Name = Filename;
+
             _context.Files.Update(file);
             await _context.SaveChangesAsync();
             return _mapper.Map<FileDto>(file);
